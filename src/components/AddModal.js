@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
-function AddModal(props) {
+import { Link } from "react-router-dom";
+function AddModal({ addMovie }) {
   const [show, setShow] = useState(false);
-  const [rate, setRate] = useState(1)
+
   const [add, setAdd] = useState({
     Title: "",
     Year: "",
     Poster: "",
-    rating:0
+    rating: 0,
   });
 
   const handleShow = () => setShow(true);
@@ -17,66 +18,67 @@ function AddModal(props) {
     setAdd({ ...add, [e.target.name]: e.target.value });
   };
   const ratingChanged = (newRating) => {
-    setAdd({...add ,rating :  newRating})
+    setAdd({ ...add, rating: newRating });
   };
-  
-  
-  
-
-  
 
   return (
     <div>
-      <div className="add">
-        
-        <button className="add" variant="primary" onClick={handleShow}>
-          Add New Movie
-        </button>
-      </div>
+      <div className="add"></div>
 
-      <Modal centered={true} show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-            <div>
-              <label>Title:</label>
-              <input type="text" onChange={handleChange} name="Title" />
-            </div>
-            <div>
-              <label>Image:</label>
-              <input type="text" onChange={handleChange} name="Poster" />
-            </div>
+      <Form className="form">
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Add movie</Form.Label>
+          
+          <Form.Text className="text-muted"></Form.Text>
+        </Form.Group>
 
-            <div>
-              <label>Year:</label>
-              <input type="text" onChange={handleChange} name="Year" />
-            </div>
-          </div>
-          <ReactStars
-            count={5}
-            onChange={ratingChanged}
-            size={24}
-            activeColor="#ffd700"
-            
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Title:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="enter title"
+            onChange={handleChange}
+            name="Title"
           />
-        </Modal.Body>
-        <Modal.Footer>
+          <Form.Label>Image:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="enter URL"
+            onChange={handleChange}
+            name="Poster"
+          />
+          <Form.Label>Year:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="enter year"
+            onChange={handleChange}
+            name="Year"
+          />
+        </Form.Group>
+        <ReactStars
+          count={5}
+          onChange={ratingChanged}
+          size={24}
+          activeColor="#ffd700"
+        />
+
+        <Link to="/">
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            close
           </Button>
+        </Link>
+        <Link to="/">
           <Button
             onClick={() => {
-              props.addMovie(add);
+              addMovie(add);
               handleClose();
             }}
             variant="primary"
           >
-            Add Movie
+            Add movie
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </Link>
+      </Form>
     </div>
   );
 }
